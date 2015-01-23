@@ -45,13 +45,13 @@ var image = fs.createReadStream('/my/icon/path.jpg');
 var iconset = spnPushPackage.generateIconSet(image);
 ```
 
-### spnPushPackage.generateIcon(type)
+### spnPushPackage.generateIcon(size)
 
 Generate a specific icon.
 
 ```js
 var image = fs.createReadStream('/my/icon/path.jpg');
-var icon = spnPushPackage.generateIcon('icon_16x16@2x');
+var icon = spnPushPackage.generateIcon('16x16@2x');
 ```
 
 ### spnPushPackage.generate(options)
