@@ -104,7 +104,9 @@ var zipStream = spnPushPackage.generate({
     authenticationToken: '19f8d7a6e9fb8a7f6d9330dabe',
     webServiceURL: 'http://hipush.net/api/apple'
   },
-  iconset: iconset
+  iconset: iconset,
+  key: '/path/to/key.pem',
+  cert: '/path/to/cert.pem'
 });
 ```
 
