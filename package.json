@@ -21,5 +21,17 @@
   "bugs": {
     "url": "https://github.com/hipush/spn-push-package/issues"
   },
-  "homepage": "https://github.com/hipush/spn-push-package"
+  "homepage": "https://github.com/hipush/spn-push-package",
+  "devDependencies": {
+    "chai": "^1.10.0",
+    "mocha": "^2.1.0"
+  },
+  "dependencies": {
+    "archiver": "^0.14.2",
+    "gm": "^1.17.0",
+    "image-size-parser": "^1.0.0",
+    "promise": "^6.1.0",
+    "smime": "^1.0.0",
+    "streamifier": "^0.1.0"
+  }
 }

@@ -19,7 +19,7 @@ npm install spn-push-package
 var path = require('path');
 var spnPushPackage = require('spn-push-package');
 
-var iconset = spnPushPackage.generateIconSet(fs.createReadStream('/my/icon/path.jpg'));
+var iconset = spnPushPackage.generateIconSet('/my/icon/path.jpg');
 
 var zipStream = spnPushPackage.generate({
   websiteJSON: {
@@ -30,7 +30,9 @@ var zipStream = spnPushPackage.generate({
     authenticationToken: '19f8d7a6e9fb8a7f6d9330dabe',
     webServiceURL: 'http://hipush.net/api/apple'
   },
-  iconset: iconset
+  iconset: iconset,
+  key: '/path/to/mykey.pem',
+  cert: '/path/to/mycert.pem'
 });
 
 zipStream.pipe(fs.createWriteStream('/my/pushPackage.zip', {flags: 'w'}));
@@ -38,11 +40,11 @@ zipStream.pipe(fs.createWriteStream('/my/pushPackage.zip', {flags: 'w'}));
 
 ### spnPushPackage.generateIconSet(image)
 
-Generate an icon set from a readable stream or a path.
+Generate an icon set from a path.
 
 **Arguments:**
 ```
-@param {string|stream.Readable} image Path of the image or stream
+@param {string} image Path of the image
 ```
 
 **Returns:**
@@ -52,17 +54,16 @@ Generate an icon set from a readable stream or a path.
 
 **Example:**
 ```js
-var image = fs.createReadStream('/my/icon/path.jpg');
-var iconset = spnPushPackage.generateIconSet(image);
+var iconset = spnPushPackage.generateIconSet('/my/icon/path.jpg');
 ```
 
 ### spnPushPackage.generateIcon(image, size)
 
-Generate a specific icon from a readable stream or a path.
+Generate a specific icon from a path.
 
 **Arguments:**
 ```
-@param {string|stream.Readable} image Path of the image or stream
+@param {string} image Path of the image
 @param {string} size Size of the image
 ```
 
@@ -73,8 +74,7 @@ Generate a specific icon from a readable stream or a path.
 
 **Example:**
 ```js
-var image = fs.createReadStream('/my/icon/path.jpg');
-var icon = spnPushPackage.generateIcon(image, '16x16@2x');
+var icon = spnPushPackage.generateIcon('/my/icon/path.jpg', '16x16@2x');
 ```
 
 ### spnPushPackage.generate(options)
