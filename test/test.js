@@ -2,41 +2,44 @@ var expect = require('chai').expect;
 var spn = require('../');
 var path = require('path');
 var fs = require('fs');
+var mkdirp = require('mkdirp');
 var Promise = require('promise');
 
 var yodaPath = path.join(__dirname, 'mocks/yoda.jpg');
 
 describe('Spn push package', function () {
+  beforeEach(function (done) {
+    mkdirp(path.join(__dirname, 'tmp'), done);
+  });
+
   describe('#generateIcon', function () {
-    var expected30x30, expected30x30at2x;
-
-    before(function () {
-      expected30x30 = fs.readFileSync(path.join(__dirname, 'mocks/yoda-30x30.png'), 'binary');
-      expected30x30at2x = fs.readFileSync(path.join(__dirname, 'mocks/yoda-30x30@2x.png'), 'binary');
-    });
-
-    it('should generate an icon with simple format', function () {
+    it('should generate an icon with simple format', function (done) {
+      var iconPath = path.join(__dirname, 'tmp/30x30.png');
       var stream = spn.generateIcon(yodaPath, '30x30');
-      return streamToString(stream)
-      .then(function (str) {
-        expect(str).to.equal(expected30x30);
+      var writeStream = fs.createWriteStream(iconPath);
+      stream.pipe(writeStream);
+
+      writeStream.on('close', function () {
+        var stats = fs.statSync(iconPath);
+        expect(stats.size).to.be.at.least(3200);
+        expect(stats.size).to.be.at.most(3300);
+        done();
       });
     });
 
-    it('should generate an icon with multiplicator format', function () {
+    it('should generate an icon with multiplicator format', function (done) {
+      var iconPath = path.join(__dirname, 'tmp/30x30@2x.png');
       var stream = spn.generateIcon(yodaPath, '30x30@2x');
-      return streamToString(stream)
-      .then(function (str) {
-        expect(str).to.equal(expected30x30at2x);
+      var writeStream = fs.createWriteStream(iconPath);
+      stream.pipe(writeStream);
+
+      writeStream.on('close', function () {
+        var stats = fs.statSync(iconPath);
+        expect(stats.size).to.be.at.least(8750);
+        expect(stats.size).to.be.at.most(8850);
+        done();
       });
     });
-
-    // it.only('should generate a big image', function (done) {
-    //   var stream = spn.generateIcon(yodaPath, '128x128@2x');
-    //   var writeStream = fs.createWriteStream(path.join(__dirname, 'tmp/big.png'));
-    //   stream.pipe(writeStream);
-    //   writeStream.on('close', done);
-    // });
   });
 
   describe('#generateIconSet', function () {
@@ -51,7 +54,9 @@ describe('Spn push package', function () {
     });
   });
 
-  describe.only('#generate', function () {
+  describe('#generate', function () {
+    this.timeout(2000);
+
     it('should generate a package', function (done) {
       var zipPath = path.join(__dirname, 'tmp/test.zip');
       var iconset = spn.generateIconSet(yodaPath);
@@ -74,33 +79,10 @@ describe('Spn push package', function () {
 
       writeStream.on('close', function () {
         var stats = fs.statSync(zipPath);
-        expect(stats.size).to.be.at.least(153000);
-        expect(stats.size).to.be.at.most(153100);
+        expect(stats.size).to.be.at.least(152000);
+        expect(stats.size).to.be.at.most(153500);
         done();
       });
     });
   });
 });
-
-/**
- * Convert a stream to a string.
- *
- * @param {stream.Readable} stream Stream
- * @returns {Promise}
- */
-
-function streamToString(stream) {
-  return new Promise(function (resolve, reject) {
-    var str = '';
-
-    stream.on('data', function (b) {
-      str += b.toString('binary');
-    });
-
-    stream.on('error', reject);
-
-    stream.on('end', function () {
-      resolve(str);
-    });
-  });
-}
