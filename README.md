@@ -36,29 +36,52 @@ var zipStream = spnPushPackage.generate({
 zipStream.pipe(fs.createWriteStream('/my/pushPackage.zip', {flags: 'w'}));
 ```
 
-### spnPushPackage.generateIconSet(icon)
+### spnPushPackage.generateIconSet(image)
 
-Generate an icon set from a readable stream. Return an map of stream corresponding to the iconset.
+Generate an icon set from a readable stream or a path.
 
+**Arguments:**
+```
+@param {string|stream.Readable} image Path of the image or stream
+```
+
+**Returns:**
+```
+@returns {object} iconset Map of icon streams
+```
+
+**Example:**
 ```js
 var image = fs.createReadStream('/my/icon/path.jpg');
 var iconset = spnPushPackage.generateIconSet(image);
 ```
 
-### spnPushPackage.generateIcon(size)
+### spnPushPackage.generateIcon(image, size)
 
-Generate a specific icon.
+Generate a specific icon from a readable stream or a path.
 
+**Arguments:**
+```
+@param {string|stream.Readable} image Path of the image or stream
+@param {string} size Size of the image
+```
+
+**Returns:**
+```
+@returns {stream.Readable} iconStream
+```
+
+**Example:**
 ```js
 var image = fs.createReadStream('/my/icon/path.jpg');
-var icon = spnPushPackage.generateIcon('16x16@2x');
+var icon = spnPushPackage.generateIcon(image, '16x16@2x');
 ```
 
 ### spnPushPackage.generate(options)
 
 Generate a push package.
 
-**Options:**
+**Arguments:**
 ```
 @param {object} options Options
 @param {object} options.websiteJSON WebsiteJSON entries
@@ -70,6 +93,7 @@ Generate a push package.
 @returns {stream.Readable} zipStream
 ```
 
+**Example:**
 ```js
 var zipStream = spnPushPackage.generate({
   websiteJSON: {
