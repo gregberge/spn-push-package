@@ -32,6 +32,7 @@ var zipStream = spnPushPackage.generate({
   },
   iconset: iconset,
   key: '/path/to/mykey.pem',
+  keyPass: 'password',
   cert: '/path/to/mycert.pem'
 });
 
@@ -106,6 +107,7 @@ var zipStream = spnPushPackage.generate({
   },
   iconset: iconset,
   key: '/path/to/key.pem',
+  keyPass: 'password',
   cert: '/path/to/cert.pem'
 });
 ```
