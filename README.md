@@ -84,9 +84,12 @@ Generate a push package.
 
 **Arguments:**
 ```
-@param {object} options Options
-@param {object} options.websiteJSON WebsiteJSON entries
-@param {object} options.iconset An object containing a map of stream.
+ * @param {object} options Options
+ * @param {string} options.key Key path
+ * @param {string} options.cert Cert path
+ * @param {string} [options.keyPass] Key password
+ * @param {object} options.websiteJSON WebsiteJSON entries
+ * @param {object} options.iconset An object containing a map of stream.
 ```
 
 **Returns:**
