@@ -1,6 +1,6 @@
 {
   "name": "spn-push-package",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Generate a Safari Push Notifications package.",
   "main": "index.js",
   "scripts": {
